@@ -88,7 +88,9 @@ struct Arbol{
             //comunes
 
             esquina* actual = cola_a.top(); cola_a.pop();
-
+            if (actual == esquinas[fin]){
+                break;
+            }
             for (int x = 0;x < actual->uniones_comunes.size();x++){
                 if (actual->uniones_comunes[x]->fin->distancia_A == INFINITO or actual->uniones_comunes[x]->fin->distancia_A > actual->distancia_A + actual->uniones_comunes[x]->distancia ){
                     actual->uniones_comunes[x]->fin->distancia_A = actual->distancia_A + actual->uniones_comunes[x]->distancia;
@@ -103,6 +105,9 @@ struct Arbol{
                     cola_b.push(actual->uniones_inversas[x]->inicio);
                     while (not cola_b.empty() ){
                         esquina* mia = cola_b.top(); cola_b.pop();
+                        if (mia == esquinas[fin]){
+                            break;
+                        }
                         for (int y = 0;y < mia->uniones_comunes.size();y++){
                             if (mia->uniones_comunes[y]->fin->distancia_B == INFINITO or mia->uniones_comunes[y]->fin->distancia_B > mia->uniones_comunes[y]->distancia + mia->distancia_B){
                                 mia->uniones_comunes[y]->fin->distancia_B = mia->distancia_B + mia->uniones_comunes[y]->distancia;
