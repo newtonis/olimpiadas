@@ -160,8 +160,7 @@ void djikstra(int level, int start_x, int start_y){
             if (mapa[ny][nx].letra == 'P'){
                 continue;
             }else if(mapa[ny][nx].letra == 'W'){
-                //cout<<F<<endl;
-                if (level >= F){
+                if (level >= F){ //SI ESTOY EN EL NIVEL MAXIMO (es decir me quede sin flechas)
                     continue;
                 } ///SALTO AL NIVEL SUPERIOR
                 if (mapa[ny][nx].peso[level+1] > mapa[actual.y][actual.x].peso[level] + 1 or mapa[ny][nx].peso[level+1] == INFINITO ){
