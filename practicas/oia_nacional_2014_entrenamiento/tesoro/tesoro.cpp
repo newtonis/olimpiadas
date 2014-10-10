@@ -163,7 +163,7 @@ void djikstra(int level, int start_x, int start_y){
                 //cout<<F<<endl;
                 if (level >= F){
                     continue;
-                }
+                } ///SALTO AL NIVEL SUPERIOR
                 if (mapa[ny][nx].peso[level+1] > mapa[actual.y][actual.x].peso[level] + 1 or mapa[ny][nx].peso[level+1] == INFINITO ){
                     mapa[ny][nx].peso[level+1] = mapa[actual.y][actual.x].peso[level] + 1;
                     mapa[ny][nx].x_anterior[level+1] = actual.x;
@@ -171,7 +171,7 @@ void djikstra(int level, int start_x, int start_y){
                     mapa[ny][nx].anterior_level_down[level+1] = true;
                     djikstra( level + 1 , nx , ny );
                 }
-            }else{
+            }else{ //CONTINUO EL DJIKSTRA EN EL NIVEL ACTUAL
                 if (mapa[ny][nx].peso[level] > mapa[actual.y][actual.x].peso[level] + 1 or mapa[ny][nx].peso[level] == INFINITO){
                     mapa[ny][nx].peso[level] = mapa[actual.y][actual.x].peso[level] + 1;
                     mapa[ny][nx].x_anterior[level] = actual.x;
