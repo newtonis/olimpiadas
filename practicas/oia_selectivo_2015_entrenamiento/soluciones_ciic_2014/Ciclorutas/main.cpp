@@ -54,7 +54,7 @@ void solve(){
                 }else{ //de lo contrario ese camino alternativo es la sumatoria de los dos caminos que remplazarian al camino central
                     DAL = distancias[y][k] + distancias[k][x];
                 }
-                //si el camino alternativo es de menor o igual disntancia que el camino original podemos convertir el camino original en cicloruta
+                //si el camino alternativo  es de menor o igual disntancia que el camino original podemos convertir el camino original en cicloruta
                 if (( (DAC != INF and DAL != INF and DAC >= DAL)) and y != k and k != x){
                     //si hay una ruta de x a y menor pasando por k, entonces la ruta de x a y puede ser anulada
                     distancias[y][x] = DAL; //guardamos la nueva distancia
