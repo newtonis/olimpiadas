@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1424635877 source:/home/newtonis/programming/source/c/olimpiadas_projects/codechef/horrible/main.cpp
+	<iostream>
+	<cstdio>
+	<ios>
+

@@ -11,19 +11,21 @@ using namespace std;
 //una matriz sabiendo que va a ocupar de cualquier forma que se organize en 10000 lugares. Es decir, cada combinacion
 //x,y tiene un valor de identifiacion unico.
 //Para acceder a un lugar unico mediante coordenadas x e y se utiliza la formula y*W+x, y asi se logra el valor unico
-bool lagunas[10000];
+bool lagunas[100000];
 
 //aqui marco los lugares que ya visite, con una combinacion de atracciones ya visitadas
 //como son 10 atracciones como maximo, hay en total 2^10 combinaciones de atracciones que ya visite como maximo, iniciando
 //desde 0000000000, hasta 1111111111 cuando ya visite todas
 //ejemplo: visite el lugar con x=20,y=10, con w=300 h=400 (entonces la id de posicion seria 6010=300*20+10) cuando habia visitado
 //las atracciones 2, 3 y 6 (entonces el valor de la mascara (el segundo valor de la matriz) es 0110010000=400)
-bool visitados[10000][1024];
+bool visitados[100000][1024];
 
 //aqui guardo una mascara que dice cuantas atracciones puedo visitar en tal lugar. El valor maxim
 //de esta mascara es 2^10 si pudiera visitar todas las atracciones desde tal punto. (
 //es decir 1111111111. como todas las combinaciones x,y son identificadas por un valor unico no es una matriz sino una array
-unsigned short atraccionesMap[10000];
+unsigned short atraccionesMap[100000];
+
+short maxMasc = 0;
 
 char mov[4][2] = {{0,1},{0,-1},{1,0},{-1,0}}; //Movimientos que puedo hacer (adelante,atras,abajo,arriba)
 
@@ -32,47 +34,63 @@ int N; //atracciones
 int H; //alto
 int W; //ancho
 
-void read();
+void read(const char* file);
 void solve();
+void doall(const char*  input);
 
 struct estado{
     unsigned int x;
     unsigned int y;
     unsigned short mask;
     unsigned int dist;
+    estado* anterior;
     estado();
     estado(int px,int py,unsigned short pm,unsigned int dd){
         x = px;
         y = py;
         mask = pm;
         dist = dd;
+        anterior = NULL;
     };
 };
 
 void AddAtraction(unsigned int px,unsigned int py,int a){
     if (px >= 0 and px < W and py >= 0 and py < H){
-        atraccionesMap[py*W+px] |= a;
+        atraccionesMap[py*W+px] |= short(pow(2,a-1));
     }
 }
 int main(){
-    read();
+    //doall("input.in");
+    //doall("subtask0/4.in");
+    doall("subtask1/2.in");
+    //doall("subtask0/4.in");
+    //doall("subtask0/2.in");
+    //doall("subtask0/3.in");
+}
+void doall(const char*  input){
+    read(input);
     solve();
 }
+void read(const char* file){
+    freopen(file,"r",stdin);
+    int n; cin>>n; //leo atracciones, alto y ancho
+    int h; cin>>h;
+    int w; cin>>w;
+    N = n; H = h; W = w;
 
-void read(){
-    freopen("input.in","r",stdin);
-    cin>>N; //leo atracciones, alto y ancho
-    cin>>H;
-    cin>>W;
     for (int y = 0;y < H;y++){
         string data; cin>>data;
         for (int x = 0;x < data.size();x++){
             if (data[x] == 'X'){ //si es pared
-                lagunas[x*W+y] = true; //marco que hay una laguna
+                lagunas[y*W+x] = true; //marco que hay una laguna
+            }else{
+                lagunas[y*W+x] = false;
             }
         }
     }
+
     for (int a = 1;a <= N;a++){ //por cada atraccion
+
         int x,y,minv,maxv;
         cin>>y>>x>>minv>>maxv; //leo su posicion y su rango maximo y minimo
         x--; y--;
@@ -103,27 +121,42 @@ void read(){
 void solve(){
     //Se llevara a cabo una busqueda en anchura (BFS)
 
-    vector <estado> estados;
+    vector <estado*> estados;
     //agrego que empiezo en el punto 0,0 sin haber visitado ninguna atraccion y habiendo recorrido 0 lugares
-    estados.push_back(estado(0,0,0,0));
+    estados.push_back(new estado(0,0,0,0));
 
     while (not estados.empty()){ //mientras haya estados a analizar
-        estado actual = estados[0]; estados.erase(estados.begin());
-        if (actual.mask == pow(N,2)-1){ //si el estado actual visito todos los puntos
-            cout<<actual.dist<<endl; //es el primero que detecto, es decir, la solucion ya que el primero que detecto es el mas cercano
+        estado* actual = estados[0]; estados.erase(estados.begin());
+
+        if (actual->mask > maxMasc){
+            maxMasc = actual->mask;
+            cout<<actual->mask<<endl;
+        }
+        actual->mask |= atraccionesMap[actual->y*W+actual->x];
+
+        if (visitados[actual->y*W+actual->x][actual->mask]){ continue; }
+
+        if (actual->mask == pow(2,N)-1){ //si el estado actual visito todos los puntos
+            cout<<actual->dist<<endl; //es el primero que detecto, es decir, la solucion ya que el primero que detecto es el mas cercano
             return; //para que seguir?
         }
         //marco que visite el punto con tal x, tal y y tal combinacion de lugares visitados (que se guarda en la mascara)
-        visitados[actual.y*W+actual.x][actual.mask] = true;
+        visitados[actual->y*W+actual->x][actual->mask] = true;
+
         for (int v = 0;v < 4;v++){ //por cada movimiento posible
-            int ny = actual.y + mov[v][0];
-            int nx = actual.x + mov[v][1];
+            int ny = actual->y + mov[v][0];
+            int nx = actual->x + mov[v][1];
             if (ny >= H or nx >= W or ny < 0 or nx < 0){ continue; } //si no se va del rango
             if (lagunas[ny*W+nx]){ continue; } //si no hay una laguna
-            if (visitados[ny*W+nx][actual.mask]){ continue; } //si no lo visite ya
+            if (visitados[ny*W+nx][actual->mask]){ continue; } //si no lo visite ya
             //agrego las atracciones que pueda ver del nuevo punto a la mascara (uso OR, entonces si ya la visite no hay problema)
-            actual.mask |= atraccionesMap[ny*W+nx];
-            estados.push_back( estado(nx,ny,actual.mask,actual.dist+1)); //agrego la nueva posibilidad de estado
+            //actual.mask |= atraccionesMap[ny*W+nx];
+
+            estado *nuevo = new estado(nx,ny,actual->mask,actual->dist+1);
+            nuevo->anterior = actual;
+            //nuevo->mask |= atraccionesMap[ny*W+nx];
+            //cout<<nuevo->x<<" "<<nuevo->y<<endl;
+            estados.push_back( nuevo ); //agrego la nueva posibilidad de estado
         }
     }
     cout<<-1<<endl;
