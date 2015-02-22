@@ -17,7 +17,6 @@ void Create(ul id,ul a,ul b);
 void Whiten(ul id,ul A,ul B);
 void Update(ul L,ul a,ul b,ul tA,ul tB,ull v);
 ull Query(ul id,ul A,ul B,ul tA,ul tB);
-void Debug(ul a,ul b);
 
 int main(){
     ios::sync_with_stdio(false); //to make cin, cout as fast as scanf and printf
