@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1424575620 source:/home/ariel/ol/olimpiadas/practicas/teoria/segtrees/segtress1.cpp
+	<iostream>
+	<vector>
+	<cmath>
+	<cstdio>
+	<iostream>
+
