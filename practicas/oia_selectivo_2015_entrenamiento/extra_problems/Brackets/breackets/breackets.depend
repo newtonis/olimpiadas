@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1425144977 source:/home/newtonis/programming/source/c/olimpiadas_git/olimpiadas/practicas/oia_selectivo_2015_entrenamiento/extra_problems/Brackets/main.cpp
+	<iostream>
+	<ios>
+	<stdio.h>
+	<stdlib.h>
+
