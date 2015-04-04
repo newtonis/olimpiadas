@@ -1,0 +1,103 @@
+Shaota, la granjera tiene un problema. Se a mudado a su nueva casa de granjero, pero se da cuenta que los outles no se configuraron
+correctamente para sus dispositivos. Siendo una granjera moderna, shaota posee un gran numero de smartphone y laptops, e incluso
+es dueña dew una tablet que usa su vaca favorita, Wagygu. En total tiene N dispositivos.
+
+Como esos dispositivos tienen diferentes especificaciones y estan hechos por una variedad de companias, cada uno de ellos necesita
+un diferente suministro de energia para funcionar. Similarmente, cada salida de energia en la casa da una diferente
+forma de suministro de energia. Un suministroi de energia puede ser representado por un string de 0s y 1s de longitud L
+
+A Shaota le gustaria tener la capacidad de cargar sus N dispositivos al mismo tiempo. En coincidencia hay exactamente N fuentes  de energia
+en su nueva casa. Para lograr configurar la salida de energia de las fuentes de energias, hay un panel de control maestro con
+L llaves. La i-esima llave invierte el i-esimo bit de todas las fuentes de energia al mismo tiempo.
+
+Si shaota tiene un smartphone que necesita "11" para cargar, una tableta que necesita un "10" para cargar y una laptop que necesita un
+"00" para cargar, al girar el segundo switch lograria su objetivo (y se pondria feliz!)
+
+Misaki fue contratado por shaota para solucionar el problema. Ella reviso las salidas de energia de la casa, y se dio cuenta
+que son todas diferentes. Decide sdi es posible para shaota cargar todos sus dispositivos al mismo tiempo  y si es posible,
+muestra el minimo numero de llaves que necesitan ser invertidas, porque las llaves son grandes y pesadas y Misaki no quiere
+invertir mas llaves de loas que necesita
+
+ENTRADA
+La primera linea da el numero de casos T.
+T casos siguen a continuación
+
+Cada caso consiste de 3 lineas. La primera linea contiene dos enteros N y L'.
+
+La segunda linea contine N strings de longitud L, representando el codigo inicial
+de las salidas de energia
+La tercera linea continene tambien N strings de longitud L que representan la clase
+de energia que necesitan los dispositivos de Shaota
+
+SALIDA
+para cada caso, una linea de salida x,y donde x es el numero de caso y y es el minimo
+numero de llaves a ser giradas. Si es imposible, debes mostrar NOT POSIBLE.
+
+
+------------------------------------------------------------------------------------------
+
+
+
+Entonces se debe encontrar una forma girando llaves de lograr que coincida exactamente cada fuente de energia con cada dispositivo de shaota
+Ejerciendo la operacion de invertir todos los bits N de todas las fuentes
+
+las operaciones de invertir bits que va a hacer Shata van a ir siempre desde 0 operaciones hasta L operaciones sobre todos los switchs
+Tiene entonces 2^L posibilidades de llaves a invertir
+
+
+Marcar la "distancia" de bits a cambiar para el primer dispositivo por cada una de las fuentes de energia
+Con el segundo dispositivo, probar cambiando las posibilidades del primer dispositivo, cuales le sirven con alguna fuente, y descartar las demas
+Con el tercer dispositivo, probar cambiando las posibilidades que quedaron luego del segundo, cuales les sirven y descargar las demas
+y asi
+
+0 0 -> 0
+0 1 -> 1
+1 0 -> 1
+1 1 -> 0
+
+fuente 0 -> 0001 2^0
+fuente 1 -> 0010 2^1
+fuente 2 -> 0100 2^
+
+
+Pseudo-codigo
+
+-Calculo los cambios que necesita el primer dispositivo para poder estar en cada fuente de energia,
+marco entonces para cada fuente de energia que cambios deben hacerse para ser aceptada por el primer dispositivo, y
+marco entonces tambien que para los siguientes dispositivos puedo usar cualquier fuente de energia menos esa.
+
+-Por cada dispositivo sin contar el primero:
+
+    -Por cada fuente de energia en el vector:
+        ejerzo los cambios que exige esa fuente de energia con el dispositivo actual
+        -Por cada fuente de energia marcada como disponible en esa posibilidad:
+             -Si alguna es compatible con el dispositivo actual cambiado, entonces agrego a un vector futuro los cambios de la posibilidad
+             y la lista de disponibles, sin contar esa fuente disponible
+             Termino el for
+
+     remplazo la lista de posibilidades por el nuevo vector
+
+
+Calcular cantidad de bits en 1 en una mascara de bits
+
+ 001 -> 1, %2=1, %4=1 1
+ 010 -> 2, %2=0, %4=2 2
+ 011 -> 3, %2=1, %4=3 3
+ 100 -> 4, %2=0, %4=0 4
+ 101 -> 5, %2=1, %4=1 5
+ 110 -> 6, %2=0, %4=2 6
+ 111 -> 7, %2=1, %4=3 7
+1000 -> 8, %4=0  %8=0
+1001 -> 9, %4=1  %8=1
+1010 ->10, %4=2  %8=2
+1011 ->11, %4=3  %8=3
+1100 ->12, %4=0  %8=4
+1101 ->13, %4=1  %8=5
+1110 ->14, %4=2  %8=6
+1111 ->15, %4=3  %8=7
+
+resto 2 si es mayor a 0 el bit 0 es 1
+resto 4 si es mayor a 1 el bit 1 es 1
+resto 8 si es mayor a 3 el bit 2 es 1
+resto16 si es mayor a 7 el bit 3 es 1
+resto32 si es mayor a15 el bit 4 es 1

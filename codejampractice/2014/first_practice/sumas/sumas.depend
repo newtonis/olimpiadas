@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1424314524 source:/home/newtonis/programming/source/c/olimpiadas_projects/sumas/main.cpp
+	<iostream>
+	<cstdio>
+	<map>
+	<cmath>
+

@@ -1,0 +1,114 @@
+Un arbol es un grafo conectado sin ciclos
+
+Un arbol de raices es uno en el cual un vertice especial es llamado raiz. Si hay una
+union entre X e Y en un arbol con raiz, diremos que Y es hijo de X si X esta
+mas cerca de la raiz que Y. (en otras palabras, el camino mas corto desde la raiz a
+X es menor que el menor camino de la raiz a Y)
+
+
+Un arbol binario completo es un arbol con raiz donde cada nodo tiene
+-o dos hijos
+-o ningun hijo
+
+Te damos un rabol G con N nodos (nombrados de 1 a N). Se te permite eliminar
+alguno de los nodos. Cuando un nodo es eliminado, las uniones del nodo elminiado son
+tambien eliminadas. Tu tarea es eliminar la menor cantidad de nodos posible de manera tal que
+los nodos restantes formen un arbol binario completo con eleccion de la raiz de los nodos restantes
+
+La primera linea dice el numero de casos de prueba T. T casos de pruebas siguen
+La primera linea de cada caso de prueba contine un entero N, el numero de nodos del arbol.
+Las siguientes N-1 lineas continene dos enteros X,Y , indicando que G tiene una arista
+no direccionada entre X e Y
+
+----------------------
+Puedo eliminar cualquier nodo
+Debo lograr formar un arbol binario completo
+Cualquier nodo podria ser la raiz?
+
+        X
+    X       X
+ X    X   X   X
+X X      X X
+
+-Debo decidir cual nodo será la raiz
+
+Solucion basica (cuadratica):
+-Pruebo cada nodo como raiz
+    -Reviso la cantidad de hijos, si es
+    -0 Termino
+    -1 Elimino el hijo y los hijos de sus hijos, etc
+    -2 Repito el proceso con los dos hijos
+    -3 o mas, pruebo eliminar nodos (e hijos) para lograr que queden 2 hijos
+Solucion muy ineficiente
+
+4 5
+4 2
+1 2
+3 1
+6 4
+3 7
+
+1 -> 2 3
+2 -> 1
+3 -> 1 7
+4 -> 5 2 6
+5 -> 4
+6 -> 4
+7 -> 3
+
+El grafo que me dan es un arbol sin ciclo alguno
+
+
+¿No hay alguna forma de identificar el mejor nodo raiz?
+
+El "nodo" que este en el medio quizas?
+
+
+1 2
+2 3
+3 4
+
+1 -> 2
+2 -> 3
+3 -> 4
+
+eliminamos 1, por lo tanto 3 seria la raiz
+o eliminamos 4, por lo tanto 2 seria la raiz
+
+Es un hecho que cualquier nodo puede ser raiz
+Para lograr convertir en arbol
+
+Debo encontrar algun patron para elegir la/s mejor raiz
+
+¿Y si le pongo un numero a cada nodo?
+Podria ser la cantidad de hijos de ese nodo.
+
+Lo que si o si se es que a excepcion del nodo que será raiz, todos los nodos tendran ese numero, *menos 1* de hijos,
+ya que su padre no contará.
+Solo los nodos entonces con 1 o 3 hijos son validos en un arbol binario, a excepcion de la raiz que debe tener 0 o 2 hijos.
+
+La sumatoria de los nodos es igual a N-1, a excepcion de la raiz todos los nodos tienen una union hacia arriba obligatoriamente
+Debo lograr que cada nodo tenga 1 o 3 hijos a excepcion de la raiz con 2 o 0
+
+Hay una verdad recursiva. Los nodos pertenecientes a un posible arbol binario de un nodo
+hacia una direccion son siempre iguales
+
+Entonces lo que me conviene es calcular
+
+Alguna forma de recalcular para todos los nodos sus arboles binarios en una vuelta
+
+
+
+----------------------------------------------------------
+
+Algoritmo comun
+
+-Pruebo cada nodo como raiz
+    -calculo su costo para convertirse en binario
+
+Funcion para calcular costo de un nodo:
+    -Si no tiene hijos, devuelvo 0
+    -Si tiene 1 hijo, entonces devuelvo 1 + los descendientes del hijo
+    -Si tiene dos hijos, entonces devuelvo la sumatoria del costo de ambos hijos
+    -Si tiene tres hijos o mas, checkeo cada uno de ellos, y devuelvo los dos valores menores
+

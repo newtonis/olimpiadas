@@ -1,0 +1,57 @@
+Guerra comun
+--------------------------
+-Naomi elgie uno de sus bloques
+-Naomi le dice a Ken el peso de su bloque
+
+-Ken elige uno de sus bloques
+
+-Se pesan los bloques, el más pesado suma un punto
+
+-Se destruyen ambos bloques
+
+--------------------------
+Estrategia:
+No interesa lo que tire Naomi, Si Ken elige:
+-El bloque más chico que le gane al de Naomi
+-Si ninguno bloque le gana, el bloque más chico que tenga
+
+Va a siempre maximizar sus victorias
+--------------------------
+
+Guerra mentirosa
+
+-Naomi sabe tanto el peso de sus bloques como los de Ken
+
+-Naomi elige uno de sus bloques y le miente a Ken sobre el peso
+-Ken elige uno de sus bloques (utilizado su estrategia maximizadora segun lo que dijo Naomi)
+
+-Se pesan los bloques, el más pesado suma un punto
+
+-Se destruyen los bloques
+
+-----------------------------------------
+Analisis                                #
+-----------------------------------------
+-----------------------------------------
+Naomi no puede dejar que Ken se entere que esta mintiendo. Tiene limitaciones al mentir.
+No puede decir:
+-Un bloque que Ken tenga
+
+Un bloque tal que supere al que eligio Ken, pero que en la realidad no lo supere
+Un bloque tal que no supere al que eligio Ken, pero que en la realidad si lo supere
+
+¿En que condicion en la guerra normal Naomi le saca puntos a Ken?
+Cuando a Ken no le quedan bloques mayores a los de Naomi
+
+Naomi debe entonces para sacar puntos decirle a Ken que tiene un bloque un poco más grande que el mejor de Ken, siempre y cuando
+Naomi pueda ganarle al bloque más chico de Ken.
+
+En caso de que Naomi no pueda ganarle al bloque más chico de Ken entonces ya Naomi no puede sacar más puntos.
+
+Entonces el puntaje maximo de Naomi es segun este proceso
+
+
+El bloque más chico de Ken, contra el bloque de Naomi más chico que le gane
+Suma un punto Naomi
+Se eliminan los bloques
+Hasta que Naomi no tenga bloques que le ganen al más chico de Ken
