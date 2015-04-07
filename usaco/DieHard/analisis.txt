@@ -1,0 +1,7 @@
+La estrategia será la siguiente:
+
+Siempre usaremos un step con aire, y luego uno con o bien agua, o bien fuego. El aire siempre da beneficio
+
+Analizamos cuanto sobrevivimos si en las siguientes vueltas hacemos la secuencia aire + agua + aire + agua
+
+Analizamos cuanto sobrevivimos si en las siguientes vueltas hacemos la secuencia aire + fuego + aire + agua + aire + agua

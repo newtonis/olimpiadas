@@ -56,6 +56,7 @@ void solve(int c){
 
     for (int x = 0;x < N;x++){
         //pruebo x como raiz
+        //cout<<x<<endl;
         int del = Cost(-1,x,hijos);
         min_deleted = min(del,min_deleted);
     }
@@ -72,6 +73,7 @@ int Cost(int padre,int nodo,amatrix hijos){
 
     int totalcost = 0;
 
+
     for (int h = 0;h < hijos[nodo].size();h++){
         int hijo = hijos[nodo][h];
         if (hijo == padre){ continue; }
@@ -82,18 +84,37 @@ int Cost(int padre,int nodo,amatrix hijos){
         }else if(hs >= 2){ //si tengo dos hijos o mas, debo analizar el costo que seria eliminar cada uno de ellos
             int val = 0;
             Count(nodo,hijo,&val,hijos);
-            chances.push_back( val );
+            int fv = val - Cost(nodo,hijo,hijos);
+
+            if (chances.size() == 0){
+                chances.push_back(fv);
+            }else if(chances.size() == 1){
+                if (fv > chances[0]){
+                    chances.push_back(chances[0]);
+                    chances[0] = fv;
+                }else{
+                    chances.push_back(fv);
+                }
+            }else if(chances.size() == 2){
+                if (fv > chances[0]){
+                    chances[1] = chances[0];
+                    chances[0] = fv;
+                }else if(fv > chances[1]){
+                    chances[1] = fv;
+                }
+            }
+            //chances.push_back( val - Cost(nodo,hijo,hijos) );
+
             hc.push_back(hijo);
             totalcost += val;
         }
     }
-    vector <int> ganancia;
+    /*vector <int> ganancia;
     for (int c = 0;c < chances.size();c++){
         ganancia.push_back( chances[c] - Cost( nodo , hc[c] , hijos) );
-    }
+    }*/
 
-    sort(ganancia.begin(),ganancia.end(),compare);
-    return totalcost - ganancia[0] - ganancia[1]; //devuelvo los dos hijos con menor costo de nodos a eliminar, el costo neto es su sumatoria
+    return totalcost - chances[0] - chances[1]; //devuelvo los dos hijos con menor costo de nodos a eliminar, el costo neto es su sumatoria
 }
 void Count(int padre,int nodo ,int *count ,amatrix hijos){
     (*count) += 1;

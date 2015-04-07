@@ -112,3 +112,9 @@ Funcion para calcular costo de un nodo:
     -Si tiene dos hijos, entonces devuelvo la sumatoria del costo de ambos hijos
     -Si tiene tres hijos o mas, checkeo cada uno de ellos, y devuelvo los dos valores menores
 
+
+
+-------------------------------------
+EL algoritmo cuadratico soluciona el datasheet largo pero hay una mejor solucion
+
+
